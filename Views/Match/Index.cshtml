@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Profile>
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Find Your Match</h2>
+
+    @if (TempData["MatchAlert"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["MatchAlert"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            No more potential matches available at the moment.
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var profile in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">@profile.User?.Name</h5>
+                            <p class="card-text">
+                                <strong>Age:</strong> @((DateTime.Now.Year - profile.DateOfBirth.Year))<br />
+                                <strong>Location:</strong> @profile.Location
+                            </p>
+                            <p class="card-text">@profile.Bio</p>
+
+                            <form asp-action="Like" method="post" class="d-inline">
+                                <input type="hidden" name="matchUserId" value="@profile.UserId" />
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-heart"></i> Like
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

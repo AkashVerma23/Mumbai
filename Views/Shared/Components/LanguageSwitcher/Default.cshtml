@@ -1,0 +1,19 @@
+﻿@model dynamic
+
+<div class="nav-item dropdown">
+    <button class="nav-link dropdown-toggle btn btn-link" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        @(ViewBag.CurrentLanguage == "en" ? "English" : "हिंदी")
+    </button>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+        @foreach (var language in Model)
+        {
+            <li>
+                <a class="dropdown-item @(ViewBag.CurrentLanguage == language.Code ? "active" : "")"
+                   href="@Url.Action("SetLanguage", "Home", new { culture = language.Code, returnUrl = Context.Request.Path })"
+                   role="button">
+                    @language.Name
+                </a>
+            </li>
+        }
+    </ul>
+</div>

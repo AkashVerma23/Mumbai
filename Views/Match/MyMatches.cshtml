@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Match>
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Your Matches</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            You don't have any matches yet. Keep looking!
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var match in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">@match.MatchUser?.Name</h5>
+                            <p class="card-text">
+                                <strong>Age:</strong> @((DateTime.Now.Year - match.MatchUser?.Profile?.DateOfBirth.Year))<br />
+                                <strong>Location:</strong> @match.MatchUser?.Profile?.Location<br />
+                                <strong>Matched On:</strong> @match.MatchDate.ToShortDateString()
+                            </p>
+                            <p class="card-text">@match.MatchUser?.Profile?.Bio</p>
+
+                            <form asp-action="Unlike" method="post" class="d-inline">
+                                <input type="hidden" name="matchUserId" value="@match.MatchUserId" />
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="bi bi-heart-break"></i> Unlike
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
